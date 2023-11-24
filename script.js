@@ -1,117 +1,152 @@
 let questions = [
-    {
-        question: "What is the capital of France?",
+    // Adding questions with categories here
+    { 
+        category: "sports",
+        question: "The Olympics are held every how many years ?",
         answers: [
-            { text: "Paris", correct: true },
-            { text: "London", correct: false },
-            { text: "Berlin", correct: false },
-            { text: "Madrid", correct: false }
+            { text: "2 Years", correct: false },
+            { text: "4 Years", correct: true },
+            { text: "6 Years", correct: false },
+            { text: "8 Years", correct: false },
         ]
     },
-    {
-        question: "Which planet is known as the 'Red Planet'?",
+
+    { 
+        category: "sports",
+        question: "What team won the very first NBA game in 1946 ?",
         answers: [
-            { text: "Mars", correct: true },
-            { text: "Jupiter", correct: false },
-            { text: "Saturn", correct: false },
-            { text: "Venus", correct: false }
+            { text: "New York Knicks", correct: true },
+            { text: "Los Angeles Lakers", correct: false },
+            { text: "Golden State Warriors", correct: false },
+            { text: "Denver Nuggets", correct: false },
         ]
     },
-    {
-        question: "Who wrote the play 'Romeo and Juliet'?",
+
+    { 
+        category: "science",
+        question: "How many elements are listed in the periodic table ?",
         answers: [
-            { text: "William Shakespeare", correct: true },
-            { text: "Charles Dickens", correct: false },
-            { text: "Jane Austen", correct: false },
-            { text: "Leo Tolstoy", correct: false }
+            { text: "45", correct: false },
+            { text: "102", correct: false },
+            { text: "64", correct: false },
+            { text: "118", correct: true },
         ]
     },
-    {
-        question: "What is the largest mammal in the world?",
+
+    { 
+        category: "music",
+        question: "What singer has had a Billboard No. 1 hit in each of the last four decades ?",
         answers: [
-            { text: "Elephant", correct: false },
-            { text: "Blue Whale", correct: true },
-            { text: "Giraffe", correct: false },
-            { text: "Hippopotamus", correct: false }
+            { text: "Mariah Carey", correct: true },
+            { text: "Kelly Clarkson", correct: false },
+            { text: "Taylor Swift", correct: false },
+            { text: "Beyonce", correct: false },
         ]
     },
-    {
-        question: "In which year did the Titanic sink?",
+
+    { 
+        category: "history",
+        question: "The United States bought Alaska from which country ?",
         answers: [
-            { text: "1912", correct: true },
-            { text: "1910", correct: false },
-            { text: "1914", correct: false },
-            { text: "1916", correct: false }
+            { text: "India", correct: false },
+            { text: "Japan", correct: false },
+            { text: "Russia", correct: true },
+            { text: "Africa", correct: false },
         ]
-    }
+    },
 ];
 
 let currentQuestionIndex;
 let score = 0;
 let timer;
 let timeLeft = 15; // 15 seconds for each question
+let selectedCategory;
 
-document.getElementById('start-btn').addEventListener('click', startGame);
+document.querySelectorAll('.category-btn').forEach(button => {
+    button.addEventListener('click', function() {
+        selectedCategory = this.dataset.category;
+        startGame();
+    });
+});
 
 function startGame() {
     currentQuestionIndex = 0;
     score = 0;
+    document.getElementById('score-container').style.display = 'block';
+    document.getElementById('category-container').style.display = 'none'; // Hide category selection
     updateScoreDisplay();
-    document.getElementById('start-btn').style.display = 'none';
-    showQuestion(questions[currentQuestionIndex]);
+    showQuestion();
 }
 
-function showQuestion(question) {
-    let questionElement = document.getElementById('question-text');
-    questionElement.innerText = question.question;
+function showQuestion() {
+    resetState();
+    let filteredQuestions = questions.filter(q => q.category === selectedCategory);
+    if (currentQuestionIndex < filteredQuestions.length) {
+        let question = filteredQuestions[currentQuestionIndex];
+        let questionElement = document.getElementById('question-text');
+        questionElement.innerText = question.question;
 
-    let answersElement = document.getElementById('answer-buttons');
-    answersElement.innerHTML = ''; // Clear previous buttons
-    question.answers.forEach(answer => {
-        let button = document.createElement('button');
-        button.innerText = answer.text;
-        button.classList.add('btn');
-        if (answer.correct) {
+        question.answers.forEach(answer => {
+            let button = document.createElement('button');
+            button.innerText = answer.text;
+            button.classList.add('btn');
             button.dataset.correct = answer.correct;
-        }
-        button.addEventListener('click', selectAnswer);
-        answersElement.appendChild(button);
-    });
+            button.addEventListener('click', selectAnswer);
+            document.getElementById('answer-buttons').appendChild(button);
+        });
 
-    startTimer();
-}
-
-function selectAnswer(e) {
-    let selectedButton = e.target;
-    let correct = selectedButton.dataset.correct;
-
-    stopTimer(); // Stop the timer
-
-    if (correct) {
-        console.log("Correct Answer!");
-        score++;
-        updateScoreDisplay();
-    } else {
-        console.log("Wrong Answer!");
-    }
-
-    if (currentQuestionIndex < questions.length - 1) {
-        currentQuestionIndex++;
-        setTimeout(() => showQuestion(questions[currentQuestionIndex]), 500); // Wait a bit before next question
+        startTimer();
     } else {
         endGame();
     }
 }
 
+function endGame() {
+    console.log("Category complete! Your score: " + score);
+    // Hide the question and timer display
+    document.getElementById('question-text').innerText = '';
+    document.getElementById('timer').innerText = '';
+    
+    // Reset and show the category selection again
+    document.getElementById('score-container').style.display = 'none';
+    document.getElementById('category-container').style.display = 'block';
+
+    // Reset the score display and other game state variables
+    score = 0;
+    currentQuestionIndex = 0;
+    updateScoreDisplay();
+}
+
+function selectAnswer(e) {
+    let selectedButton = e.target;
+    let correct = selectedButton.dataset.correct === 'true';
+    
+    Array.from(document.getElementsByClassName('btn')).forEach(button => {
+        button.disabled = true;
+        setColor(button, button.dataset.correct === 'true');
+    });
+
+    if (correct) {
+        console.log("Correct Answer!");
+        score++;
+    } else {
+        console.log("Wrong Answer!");
+    }
+
+    updateScoreDisplay();
+    setTimeout(() => {
+        if (currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            showQuestion();
+        } else {
+            endGame();
+        }
+    }, 1000);
+}
+
 function updateScoreDisplay() {
     let scoreElement = document.getElementById('score');
     scoreElement.innerText = score;
-}
-
-function endGame() {
-    console.log("Game Over! Your score: " + score);
-    document.getElementById('start-btn').innerText = "Restart Game";
-    document.getElementById('start-btn').style.display = 'block';
 }
 
 function startTimer() {
@@ -129,18 +164,30 @@ function startTimer() {
 
 function stopTimer() {
     clearInterval(timer);
-    timeLeft = 15; // Reset time for the next question
+    timeLeft = 15;
 }
 
 function handleTimeOut() {
     console.log("Time's up!");
     if (currentQuestionIndex < questions.length - 1) {
         currentQuestionIndex++;
-        setTimeout(() => showQuestion(questions[currentQuestionIndex]), 500); // Wait a bit before next question
+        showQuestion();
     } else {
         endGame();
     }
 }
 
-// Add more functionality as needed
+function resetState() {
+    document.getElementById('answer-buttons').innerHTML = '';
+    stopTimer();
+    timeLeft = 15;
+    document.getElementById('timer').innerText = `Time Left: ${timeLeft}s`;
+}
 
+function setColor(element, correct) {
+    if (correct) {
+        element.classList.add('btn-correct');
+    } else {
+        element.classList.add('btn-incorrect');
+    }
+}
