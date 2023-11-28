@@ -1,29 +1,102 @@
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f8;
+  color: #333;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+
+  /* Background image */
+  background-image: url('https://as2.ftcdn.net/jpg/03/56/63/87/360_F_356638731_606SofSEteEftPzFXQ47HLQIRNByG51D.jpg'); /* Replace with the path to your image */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
+h1 {
+  color: #1a1a2e;
+  margin-bottom: 10px;
+}
+
+/* Game container styling */
 #game-container {
-    width: 90%;
-    max-width: 600px;
-    margin: auto;
-    padding: 20px;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Timer and Score styling */
+#timer,
+#score-container {
+  font-size: 1.2em;
+  color: #1a1a2e;
+  margin: 10px 0;
+}
+
+/* Question and Answer styling */
+#question-container {
+  margin-bottom: 20px;
 }
 
 #answer-buttons button {
-    margin: 10px;
-    padding: 10px;
-    width: 200px;
+  padding: 10px 15px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #e3e3e3;
+  color: #333;
+  cursor: pointer;
+  transition: transform 0.3s, background-color 0.3s;
 }
 
-#start-btn {
-    padding: 10px 20px;
+#answer-buttons button:hover {
+  transform: scale(1.05);
 }
 
+/* Button styling for start and categories */
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #1a1a2e;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #16213e;
+}
+
+/* Correct and Incorrect Answer styling */
 .btn-correct {
-    background-color: rgb(96, 247, 96);
+  background-color: #4bb543;
 }
 
 .btn-incorrect {
-    background-color: rgb(255, 79, 79);
+  background-color: #ff3333;
 }
+
+/* Category buttons styling */
+.category-btn {
+  margin: 10px;
+  width: 150px;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  #game-container {
+    width: 100%;
+    margin: 10px;
+  }
+
+  #answer-buttons button,
+  .category-btn {
+    width: auto;
+  }
+}
+
