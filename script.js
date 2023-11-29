@@ -72,10 +72,22 @@ document.querySelectorAll('.category-btn').forEach(button => {
 function startGame() {
     currentQuestionIndex = 0;
     score = 0;
+
+    let filteredQuestions = questions.filter(q => q.category === selectedCategory);
+    shuffleArray(filteredQuestions); // Shuffle questions
+    currentQuestionIndex = 0;
+    
     document.getElementById('score-container').style.display = 'block';
     document.getElementById('category-container').style.display = 'none'; // Hide category selection
     updateScoreDisplay();
     showQuestion();
+}
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
 }
 
 function showQuestion() {
