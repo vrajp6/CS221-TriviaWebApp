@@ -231,28 +231,45 @@ let score = 0;
 let timer;
 let timeLeft = 15; // 15 seconds for each question
 let selectedCategory;
+let filteredQuestions;
+let moveToNextQuestionTimeout;
+
+document.body.addEventListener('click', function() {
+    playCategoryMusic();
+}, { once: true });
 
 document.querySelectorAll('.category-btn').forEach((button) => {
   button.addEventListener('click', function () {
     selectedCategory = this.dataset.category;
+    stopCategoryMusic(); // Stop category music when a category is chosen
     startGame();
   });
 });
 
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
 function startGame() {
+  filteredQuestions = questions.filter((q) => q.category === selectedCategory);
+  shuffleArray(filteredQuestions);
+
   currentQuestionIndex = 0;
   score = 0;
+
+  document.getElementById('timer').style.display = 'block';
   document.getElementById('score-container').style.display = 'block';
   document.getElementById('category-container').style.display = 'none'; // Hide category selection
   updateScoreDisplay();
-  showQuestion();
+
+  showQuestion(filteredQuestions);
 }
 
 function showQuestion() {
   resetState();
-  let filteredQuestions = questions.filter(
-    (q) => q.category === selectedCategory
-  );
   if (currentQuestionIndex < filteredQuestions.length) {
     let question = filteredQuestions[currentQuestionIndex];
     let questionElement = document.getElementById('question-text');
@@ -274,51 +291,105 @@ function showQuestion() {
 }
 
 function endGame() {
-  console.log('Category complete! Your score: ' + score);
-  // Hide the question and timer display
-  document.getElementById('question-text').innerText = '';
-  document.getElementById('timer').innerText = '';
+  var questionMusic = document.getElementById('question-music');
+  questionMusic.pause(); // Stop the question music
+  questionMusic.currentTime = 0; // Reset the time to start from the beginning next time
 
-  // Reset and show the category selection again
+  stopTimer(); // Stop the timer
+  resetState(); // Reset the game state
+
+  // Clear the question text
+  document.getElementById('question-text').innerText = '';
+
+  // Hide the score and timer display
+  document.getElementById('timer').style.display = 'none';
   document.getElementById('score-container').style.display = 'none';
+
+  // Show the category container
   document.getElementById('category-container').style.display = 'block';
 
-  // Reset the score display and other game state variables
+  // Reset the game state variables
   score = 0;
   currentQuestionIndex = 0;
-  updateScoreDisplay();
+  updateScoreDisplay(); // Update the score display to 0
+
+  playQuestionMusic(); // Play the question music
+
+  console.log('Game over! Your score: ' + score);
 }
 
 function selectAnswer(e) {
-    let selectedButton = e.target;
-    let correct = selectedButton.dataset.correct === 'true';
+  let selectedButton = e.target;
+  let correct = selectedButton.dataset.correct === 'true';
 
-    // Disable all buttons to prevent multiple answers
-    Array.from(document.getElementsByClassName('btn')).forEach(button => {
-        button.disabled = true;
-    });
+  stopTimer(); // Stop any running timer
 
-    if (correct) {
-        selectedButton.classList.add('btn-correct');
-        score++;
-    } else {
-        selectedButton.classList.add('btn-incorrect');
-    }
+  // Disable all buttons to prevent further answers
+  Array.from(document.getElementsByClassName('btn')).forEach(button => {
+      button.disabled = true;
+      if (button.dataset.correct === 'true') {
+          button.classList.add('btn-correct');
+      } else {
+          button.classList.add('btn-incorrect');
+      }
+  });
 
-    setTimeout(() => {
-        selectedButton.classList.remove('btn-correct', 'btn-incorrect');
-        // Re-enable buttons here if needed
-    }, 2000);
-  updateScoreDisplay();
-  setTimeout(() => {
-    if (currentQuestionIndex < questions.length - 1) {
-      currentQuestionIndex++;
-      showQuestion();
-    } else {
-      endGame();
-    }
-  }, 1000);
+  // Update the score if the answer was correct
+  if (correct) {
+      score++;
+      updateScoreDisplay();
+  }
+
+  // Clear any existing timeout for moving to the next question
+  clearTimeout(moveToNextQuestionTimeout);
+
+  // Set a new timeout to move to the next question or end the game
+  moveToNextQuestionTimeout = setTimeout(() => {
+      // Remove color classes before moving to the next question or ending the game
+      Array.from(document.getElementsByClassName('btn')).forEach(button => {
+          button.classList.remove('btn-correct', 'btn-incorrect');
+      });
+
+      if (currentQuestionIndex < filteredQuestions.length - 1) {
+          currentQuestionIndex++;
+          showQuestion();
+      } else {
+          endGame();
+      }
+  }, 1500);
 }
+
+// Function to play category music
+function playCategoryMusic() {
+  var categoryMusic = document.getElementById('category-music');
+  categoryMusic.volume = 0.1; // Set the volume to 10%
+  categoryMusic.play();
+}
+
+// Function to stop category music and play question music
+function playQuestionMusic() {
+  var categoryMusic = document.getElementById('category-music');
+  var questionMusic = document.getElementById('question-music');
+  questionMusic.volume = 0.1; // Set the volume to 10%
+  questionMusic.play(); // Play the question music
+}
+
+function stopCategoryMusic() {
+  var categoryMusic = document.getElementById('category-music');
+  if (categoryMusic) {
+      categoryMusic.pause();
+      categoryMusic.currentTime = 0;
+  }
+}
+
+// Call playQuestionMusic when a category is selected
+document.querySelectorAll('.category-btn').forEach(button => {
+  button.addEventListener('click', function() {
+      selectedCategory = this.dataset.category;
+      playQuestionMusic();
+      startGame();
+  });
+});
 
 function updateScoreDisplay() {
   let scoreElement = document.getElementById('score');
@@ -326,6 +397,9 @@ function updateScoreDisplay() {
 }
 
 function startTimer() {
+  stopTimer();
+  timeLeft = 15;
+
   let timerElement = document.getElementById('timer');
   timerElement.innerText = `Time Left: ${timeLeft}s`;
   timer = setInterval(() => {
@@ -344,20 +418,20 @@ function stopTimer() {
 }
 
 function handleTimeOut() {
-  console.log("Time's up!");
   if (currentQuestionIndex < questions.length - 1) {
+    console.log('Time is up!');
     currentQuestionIndex++;
     showQuestion();
   } else {
-    endGame();
+
   }
 }
 
 function resetState() {
+  // Clear any displayed answers
   document.getElementById('answer-buttons').innerHTML = '';
-  stopTimer();
-  timeLeft = 15;
-  document.getElementById('timer').innerText = `Time Left: ${timeLeft}s`;
+  // Reset the timer text
+  document.getElementById('timer').innerText = '';
 }
 
 function setColor(element, correct) {
