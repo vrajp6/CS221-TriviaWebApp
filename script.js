@@ -241,8 +241,18 @@ document.body.addEventListener('click', function() {
 document.querySelectorAll('.category-btn').forEach((button) => {
   button.addEventListener('click', function () {
     selectedCategory = this.dataset.category;
+    playCategorySelectSound(); // Play the category select sound
     stopCategoryMusic(); // Stop category music when a category is chosen
     startGame();
+  });
+});
+
+// Call playQuestionMusic when a category is selected
+document.querySelectorAll('.category-btn').forEach(button => {
+  button.addEventListener('click', function() {
+      selectedCategory = this.dataset.category;
+      playQuestionMusic();
+      startGame();
   });
 });
 
@@ -313,7 +323,7 @@ function endGame() {
   currentQuestionIndex = 0;
   updateScoreDisplay(); // Update the score display to 0
 
-  playQuestionMusic(); // Play the question music
+  playCategoryMusic(); // Play the category music again
 
   console.log('Game over! Your score: ' + score);
 }
@@ -336,8 +346,11 @@ function selectAnswer(e) {
 
   // Update the score if the answer was correct
   if (correct) {
+    playCorrectAnswerSound();
       score++;
       updateScoreDisplay();
+  } else {
+    playIncorrectAnswerSound();
   }
 
   // Clear any existing timeout for moving to the next question
@@ -374,6 +387,18 @@ function playQuestionMusic() {
   questionMusic.play(); // Play the question music
 }
 
+function playCorrectAnswerSound() {
+  var correctAnswerSound = document.getElementById('correct-answer-sound');
+  correctAnswerSound.volume = 0.3; // Set the volume to 30%
+  correctAnswerSound.play();
+}
+
+function playIncorrectAnswerSound() {
+  var incorrectAnswerSound = document.getElementById('incorrect-answer-sound');
+  incorrectAnswerSound.volume = 0.05; // Set the volume to 5%
+  incorrectAnswerSound.play();
+}
+
 function stopCategoryMusic() {
   var categoryMusic = document.getElementById('category-music');
   if (categoryMusic) {
@@ -382,14 +407,11 @@ function stopCategoryMusic() {
   }
 }
 
-// Call playQuestionMusic when a category is selected
-document.querySelectorAll('.category-btn').forEach(button => {
-  button.addEventListener('click', function() {
-      selectedCategory = this.dataset.category;
-      playQuestionMusic();
-      startGame();
-  });
-});
+function playCategorySelectSound() {
+  var categorySelectSound = document.getElementById('category-select-sound');
+  categorySelectSound.volume = 0.1; // Set the volume to 10%
+  categorySelectSound.play();
+}
 
 function updateScoreDisplay() {
   let scoreElement = document.getElementById('score');
