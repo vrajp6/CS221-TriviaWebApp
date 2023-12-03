@@ -347,8 +347,9 @@ function selectAnswer(e) {
   // Update the score if the answer was correct
   if (correct) {
     playCorrectAnswerSound();
-      score++;
-      updateScoreDisplay();
+    score++;
+    updateScoreDisplay();
+    triggerConfetti(); // Trigger confetti effect for correct answer
   } else {
     playIncorrectAnswerSound();
   }
@@ -372,6 +373,21 @@ function selectAnswer(e) {
   }, 1500);
 }
 
+function triggerConfetti() {
+  confetti({
+      angle: 60,
+      spread: 55,
+      particleCount: 100,
+      origin: { y: 0.6 }
+  });
+
+  confetti({
+      angle: 120,
+      spread: 55,
+      particleCount: 100,
+      origin: { y: 0.6 }
+  });
+}
 // Function to play category music
 function playCategoryMusic() {
   var categoryMusic = document.getElementById('category-music');
