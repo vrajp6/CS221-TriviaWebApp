@@ -65,13 +65,12 @@ font-size: 4.0em;
   max-width: 800px;
   margin: 30px auto;
   padding: 30px;
-  background-color: rgba(50, 50, 50, 0.8); /* Dark gray with transparency */
+  background-color: #000; /* Solid black background */
   border-radius: 15px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  overflow: hidden; /* Ensures inner elements don't overflow */
   color: #fff; /* Adjust text color for better readability */
+  overflow: hidden; /* Ensures inner elements don't overflow */
 }
-
 
 /* Timer and Score styling */
 #timer, #score-container {
