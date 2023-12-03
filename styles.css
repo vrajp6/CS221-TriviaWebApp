@@ -18,35 +18,86 @@ body {
   background-attachment: fixed;
 }
 
+/* Neon Blue h1 Styling */
 h1 {
-  color: #1a1a2e;
-  margin-bottom: 10px;
+  color: #007bff; /* Bright blue color */
+  text-shadow:
+    0 0 5px #007bff, /* Outermost blur */
+    0 0 40px #007bff, /* Middle blur */
+    0 0 50px #007bff, /* Innermost blur */
+    0 0 70px #00bfff, /* Slightly different blue for depth */
+    0 0 110px #00bfff;
+font-size: 4.0em;
+}
+
+
+/* Keyframes for Pulsing Glow Effect */
+@keyframes neonPulseRedText {
+  0%, 100% {
+    text-shadow:
+      0 0 10px #ff073a,
+      0 0 20px #ff073a,
+      0 0 30px #ff073a,
+      0 0 40px #ff4566,
+      0 0 50px #ff4566;
+  }
+  50% {
+    text-shadow:
+      0 0 20px #ff073a,
+      0 0 30px #ff073a,
+      0 0 40px #ff073a,
+      0 0 60px #ff4566,
+      0 0 70px #ff4566;
+  }
+}
+
+/* Styling for 'Select a Category' Header */
+#category-header {
+  color: #ff073a; /* Bright red color */
+  animation: neonPulseRedText 2s infinite ease-in-out;
+  text-align: center;
+  margin: 20px 0; /* Adjust as needed */
+  font-size: 1.5em; /* Adjust font size as needed */
 }
 
 /* Game container styling */
 #game-container {
-  max-width: 900px;
+  max-width: 800px;
   margin: 30px auto;
-  padding: 40px;
-  background-color: #ffffff; /* Base color */
-  background-image: linear-gradient(145deg, rgba(255, 255, 255, 0.8) 0%, rgba(245, 245, 245, 0.8) 100%);
+  padding: 30px;
+  background-color: rgba(50, 50, 50, 0.8); /* Dark gray with transparency */
   border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-  overflow: hidden; /* Ensures that inner elements don't overflow */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden; /* Ensures inner elements don't overflow */
+  color: #fff; /* Adjust text color for better readability */
 }
+
+
 /* Timer and Score styling */
-#timer,
-#score-container {
+#timer, #score-container {
   font-size: 1.2em;
-  color: #1a1a2e;
-  margin: 10px 0;
+  color: #19F; /* Bright blue color */
+  text-shadow:
+    0 0 5px #19F, /* Outermost blur */
+    0 0 10px #19F, /* Middle blur */
+    0 0 20px #19F, /* Innermost blur */
+    0 0 40px #0CF, /* Slightly different blue for depth */
+    0 0 80px #0CF; /* Even larger radius for more glow */
+   font-size: 2.0em;
 }
 
 /* Question and Answer styling */
 #question-container {
   margin-bottom: 20px;
+  color: #ff073a; /* Bright red color */
+  text-shadow:
+    0 0 5px #ff073a, /* Outermost blur */
+    0 0 10px #ff073a, /* Middle blur */
+    0 0 20px #ff073a, /* Innermost blur */
+    0 0 40px #ff4566, /* Slightly different red for depth */
+    0 0 80px #ff4566; /* Even larger radius for more glow */
+  font-size: 2.0em; /* Maintaining the larger font size */
 }
-
 #answer-buttons button {
   padding: 10px 15px;
   margin: 10px;
@@ -90,12 +141,47 @@ button.btn-incorrect {
 button {
   transition: background-color 0.5s ease;
 }
-/* Category buttons styling */
+
+
+/* Category Button Styling with Neon Red Pulsing Effect */
 .category-btn {
   margin: 10px;
-  width: 150px;
+  width: auto; /* Adjusted for auto width based on content */
+  padding: 15px 30px; /* Increased padding for a larger button size */
+  font-size: 1.2em; /* Increased font size for bigger text */
+  color: #ff073a; /* Bright red color */
+  background-color: transparent;
+  border: 2px solid #ff073a; /* Optional: red border */
+  animation: neonPulseRed 2s infinite ease-in-out;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s, border-color 0.3s;
 }
 
+.category-btn:hover {
+  background-color: rgba(255, 7, 58, 0.1); /* Slight background on hover */
+  border-color: #ff4566;
+}
+
+/* Keyframes for Pulsing Effect */
+@keyframes neonPulseRed {
+  0%, 100% {
+    text-shadow:
+      0 0 5px #ff073a,
+      0 0 10px #ff073a,
+      0 0 20px #ff073a,
+      0 0 40px #ff4566,
+      0 0 80px #ff4566;
+  }
+  50% {
+    text-shadow:
+      0 0 10px #ff073a,
+      0 0 20px #ff073a,
+      0 0 40px #ff073a,
+      0 0 60px #ff4566,
+      0 0 100px #ff4566;
+  }
+}
 /* Responsive design */
 @media (max-width: 600px) {
   #game-container {
@@ -107,6 +193,3 @@ button {
     width: auto;
   }
 }
-
-
-
