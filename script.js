@@ -383,19 +383,19 @@ function playCategoryMusic() {
 function playQuestionMusic() {
   var categoryMusic = document.getElementById('category-music');
   var questionMusic = document.getElementById('question-music');
-  questionMusic.volume = 0.1; // Set the volume to 10%
+  questionMusic.volume = 0.05; // Set the volume to 5%
   questionMusic.play(); // Play the question music
 }
 
 function playCorrectAnswerSound() {
   var correctAnswerSound = document.getElementById('correct-answer-sound');
-  correctAnswerSound.volume = 0.3; // Set the volume to 30%
+  correctAnswerSound.volume = 0.5; // Set the volume to 50%
   correctAnswerSound.play();
 }
 
 function playIncorrectAnswerSound() {
   var incorrectAnswerSound = document.getElementById('incorrect-answer-sound');
-  incorrectAnswerSound.volume = 0.05; // Set the volume to 5%
+  incorrectAnswerSound.volume = 0.1; // Set the volume to 10%
   incorrectAnswerSound.play();
 }
 
