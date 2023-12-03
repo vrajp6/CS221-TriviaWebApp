@@ -1,3 +1,4 @@
+let correctAnswersCount = 0;
 let questions = [
   // Adding questions with categories here
   {
@@ -344,12 +345,12 @@ function selectAnswer(e) {
       }
   });
 
-  // Update the score if the answer was correct
+  // Update the score and correct answers count if the answer was correct
   if (correct) {
     playCorrectAnswerSound();
     score++;
+    correctAnswersCount++;
     updateScoreDisplay();
-    triggerConfetti(); // Trigger confetti effect for correct answer
   } else {
     playIncorrectAnswerSound();
   }
@@ -368,7 +369,12 @@ function selectAnswer(e) {
           currentQuestionIndex++;
           showQuestion();
       } else {
+          // Check if all answers were correct
+          if (correctAnswersCount === filteredQuestions.length) {
+              triggerConfetti(); // Trigger confetti only if all answers are correct
+          }
           endGame();
+          correctAnswersCount = 0; // Reset the correct answers count for the next category
       }
   }, 1500);
 }
