@@ -227,18 +227,20 @@ let questions = [
   },
 ];
 
-let currentQuestionIndex;
-let score = 0;
-let timer;
+let currentQuestionIndex; // The index of the current question
+let score = 0; // The score of the player
+let timer; // The timer variable
 let timeLeft = 15; // 15 seconds for each question
-let selectedCategory;
-let filteredQuestions;
-let moveToNextQuestionTimeout;
+let selectedCategory; // The selected category
+let filteredQuestions; // The filtered questions based on the selected category
+let moveToNextQuestionTimeout; // The timeout variable to move to the next question
 
+// had to implement this so that music plays when the user clicks on screen because of autoplay policy
 document.body.addEventListener('click', function() {
     playCategoryMusic();
 }, { once: true });
 
+// Call startGame when a category is selected
 document.querySelectorAll('.category-btn').forEach((button) => {
   button.addEventListener('click', function () {
     selectedCategory = this.dataset.category;
@@ -257,41 +259,61 @@ document.querySelectorAll('.category-btn').forEach(button => {
   });
 });
 
+// implemented Fisher-Yates shuffle algorithm to shuffle the questions: https://www.freecodecamp.org/news/how-to-shuffle-an-array-of-items-using-javascript-or-typescript/
 function shuffleArray(array) {
+  // Looping over the array backwards
   for (let i = array.length - 1; i > 0; i--) {
+      // Selecting a random element that has not yet been shuffled
       let j = Math.floor(Math.random() * (i + 1));
+      // Swapping the elements with the current element
       [array[i], array[j]] = [array[j], array[i]];
   }
 }
 
+// Function to start the game when a category is selected
 function startGame() {
+  // Filter the questions based on the selected category
   filteredQuestions = questions.filter((q) => q.category === selectedCategory);
+  // Shuffle the filtered questions
   shuffleArray(filteredQuestions);
 
   currentQuestionIndex = 0;
   score = 0;
 
+  // Show the score and timer display and hide the category container
   document.getElementById('timer').style.display = 'block';
   document.getElementById('score-container').style.display = 'block';
-  document.getElementById('category-container').style.display = 'none'; // Hide category selection
+  document.getElementById('category-container').style.display = 'none';
+
+  // Update the score display to 0
   updateScoreDisplay();
 
+  // Show the first question from the filtered questions
   showQuestion(filteredQuestions);
 }
 
+// Function to show the question and answers
 function showQuestion() {
+  // Clear any displayed answers and reset the timer
   resetState();
+  // Check if there are any questions left
   if (currentQuestionIndex < filteredQuestions.length) {
+    // Get the current question from the filtered questions
     let question = filteredQuestions[currentQuestionIndex];
+    // Set the question text to the question element
     let questionElement = document.getElementById('question-text');
     questionElement.innerText = question.question;
 
+    // Loop over the answers and create a button for each answer
     question.answers.forEach((answer) => {
       let button = document.createElement('button');
       button.innerText = answer.text;
+      // Add the btn and correct class to the button
       button.classList.add('btn');
       button.dataset.correct = answer.correct;
+      // Add an event listener to the button to handle the answer selection
       button.addEventListener('click', selectAnswer);
+      // Append the button to the answer buttons container
       document.getElementById('answer-buttons').appendChild(button);
     });
 
@@ -301,6 +323,7 @@ function showQuestion() {
   }
 }
 
+// Function to end the game and show the category container
 function endGame() {
   var questionMusic = document.getElementById('question-music');
   questionMusic.pause(); // Stop the question music
@@ -329,6 +352,7 @@ function endGame() {
   console.log('Game over! Your score: ' + score);
 }
 
+// Function to handle the answer selection and move to the next question
 function selectAnswer(e) {
   let selectedButton = e.target;
   let correct = selectedButton.dataset.correct === 'true';
@@ -338,6 +362,8 @@ function selectAnswer(e) {
   // Disable all buttons to prevent further answers
   Array.from(document.getElementsByClassName('btn')).forEach(button => {
       button.disabled = true;
+
+      // Add color classes to the buttons based on the answer
       if (button.dataset.correct === 'true') {
           button.classList.add('btn-correct');
       } else {
@@ -347,11 +373,13 @@ function selectAnswer(e) {
 
   // Update the score and correct answers count if the answer was correct
   if (correct) {
+    // Play the correct answer sound if the answer was correct
     playCorrectAnswerSound();
     score++;
     correctAnswersCount++;
     updateScoreDisplay();
   } else {
+    // Play the incorrect answer sound if the answer was incorrect
     playIncorrectAnswerSound();
   }
 
@@ -379,21 +407,6 @@ function selectAnswer(e) {
   }, 1500);
 }
 
-function triggerConfetti() {
-  confetti({
-      angle: 60,
-      spread: 55,
-      particleCount: 100,
-      origin: { y: 0.6 }
-  });
-
-  confetti({
-      angle: 120,
-      spread: 55,
-      particleCount: 100,
-      origin: { y: 0.6 }
-  });
-}
 // Function to play category music
 function playCategoryMusic() {
   var categoryMusic = document.getElementById('category-music');
@@ -406,21 +419,24 @@ function playQuestionMusic() {
   var categoryMusic = document.getElementById('category-music');
   var questionMusic = document.getElementById('question-music');
   questionMusic.volume = 0.05; // Set the volume to 5%
-  questionMusic.play(); // Play the question music
+  questionMusic.play(); 
 }
 
+// Function to play correct answer sound
 function playCorrectAnswerSound() {
   var correctAnswerSound = document.getElementById('correct-answer-sound');
   correctAnswerSound.volume = 0.5; // Set the volume to 50%
   correctAnswerSound.play();
 }
 
+// Function to play incorrect answer sound
 function playIncorrectAnswerSound() {
   var incorrectAnswerSound = document.getElementById('incorrect-answer-sound');
   incorrectAnswerSound.volume = 0.1; // Set the volume to 10%
   incorrectAnswerSound.play();
 }
 
+// Function to stop category music
 function stopCategoryMusic() {
   var categoryMusic = document.getElementById('category-music');
   if (categoryMusic) {
@@ -429,26 +445,31 @@ function stopCategoryMusic() {
   }
 }
 
+// Function to play category select sound
 function playCategorySelectSound() {
   var categorySelectSound = document.getElementById('category-select-sound');
   categorySelectSound.volume = 0.1; // Set the volume to 10%
   categorySelectSound.play();
 }
 
+// Function to display the score 
 function updateScoreDisplay() {
   let scoreElement = document.getElementById('score');
   scoreElement.innerText = score;
 }
 
+// Function to start the timer and handle the timeout
 function startTimer() {
   stopTimer();
   timeLeft = 15;
 
+  // Display the timer text and set the timer
   let timerElement = document.getElementById('timer');
   timerElement.innerText = `Time Left: ${timeLeft}s`;
   timer = setInterval(() => {
     timeLeft--;
     timerElement.innerText = `Time Left: ${timeLeft}s`;
+    // Check if the time is up and handle the timeout
     if (timeLeft <= 0) {
       clearInterval(timer);
       handleTimeOut();
@@ -456,11 +477,13 @@ function startTimer() {
   }, 1000);
 }
 
+// Function to stop the timer
 function stopTimer() {
   clearInterval(timer);
   timeLeft = 15;
 }
 
+// Function to handle the timeout when the time is up
 function handleTimeOut() {
   if (currentQuestionIndex < questions.length - 1) {
     console.log('Time is up!');
@@ -471,6 +494,7 @@ function handleTimeOut() {
   }
 }
 
+// Function to reset the game state and clear the displayed answers
 function resetState() {
   // Clear any displayed answers
   document.getElementById('answer-buttons').innerHTML = '';
@@ -478,6 +502,7 @@ function resetState() {
   document.getElementById('timer').innerText = '';
 }
 
+// Function to set the color of the button based on the answer
 function setColor(element, correct) {
   if (correct) {
     element.classList.add('btn-correct');
