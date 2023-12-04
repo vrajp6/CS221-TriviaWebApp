@@ -11,7 +11,8 @@ body {
   align-items: center;
 
   /* Background image */
-  background-image: url('https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'); /* Replace with the path to your image */
+ /* background-image: url('https://images.pexels.com/photos/1702624/pexels-photo-1702624.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'); */
+background-color:#303036;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -20,18 +21,18 @@ body {
 
 /* Neon Blue h1 Styling */
 h1 {
-  color: #007bff; /* Bright blue color */
+  color: #FC5130; /* Bright blue color */
   text-shadow:
-    0 0 5px #007bff, /* Outermost blur */
-    0 0 40px #007bff, /* Middle blur */
-    0 0 50px #007bff, /* Innermost blur */
-    0 0 70px #00bfff, /* Slightly different blue for depth */
-    0 0 110px #00bfff;
+    0 0 0px #007bff, /* Outermost blur */
+    0 0 0px #007bff, /* Middle blur */
+    0 0 0px #007bff, /* Innermost blur */
+    0 0 0px #00bfff, /* Slightly different blue for depth */
+    0 0 0px #00bfff;
 font-size: 4.0em;
 }
 
 
-/* Keyframes for Pulsing Glow Effect */
+/* Keyframes for Pulsing Glow Effect 
 @keyframes neonPulseRedText {
   0%, 100% {
     text-shadow:
@@ -49,12 +50,12 @@ font-size: 4.0em;
       0 0 60px #ff4566,
       0 0 70px #ff4566;
   }
-}
+}*/
 
 /* Styling for 'Select a Category' Header */
 #category-header {
-  color: #ff073a; /* Bright red color */
-  animation: neonPulseRedText 2s infinite ease-in-out;
+  color: #050401; /* Bright red color */
+ /* animation: neonPulseRedText 2s infinite ease-in-out;*/
   text-align: center;
   margin: 20px 0; /* Adjust as needed */
   font-size: 1.5em; /* Adjust font size as needed */
@@ -65,7 +66,7 @@ font-size: 4.0em;
   max-width: 800px;
   margin: 30px auto;
   padding: 30px;
-  background-color: #000; /* Solid black background */
+  background-color: #FFFAFF; /* Solid black background */
   border-radius: 15px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   color: #fff; /* Adjust text color for better readability */
@@ -75,26 +76,26 @@ font-size: 4.0em;
 /* Timer and Score styling */
 #timer, #score-container {
   font-size: 1.2em;
-  color: #19F; /* Bright blue color */
+  color: #050401; /* Bright blue color */
   text-shadow:
-    0 0 5px #19F, /* Outermost blur */
-    0 0 10px #19F, /* Middle blur */
-    0 0 20px #19F, /* Innermost blur */
-    0 0 40px #0CF, /* Slightly different blue for depth */
-    0 0 80px #0CF; /* Even larger radius for more glow */
+    0 0 0px #19F, /* Outermost blur */
+    0 0 0px #19F, /* Middle blur */
+    0 0 0px #19F, /* Innermost blur */
+    0 0 0px #0CF, /* Slightly different blue for depth */
+    0 0 0px #0CF; /* Even larger radius for more glow */
    font-size: 2.0em;
 }
 
 /* Question and Answer styling */
 #question-container {
   margin-bottom: 20px;
-  color: #ff073a; /* Bright red color */
+  color: #050401; /* Bright red color */
   text-shadow:
-    0 0 5px #ff073a, /* Outermost blur */
-    0 0 10px #ff073a, /* Middle blur */
-    0 0 20px #ff073a, /* Innermost blur */
-    0 0 40px #ff4566, /* Slightly different red for depth */
-    0 0 80px #ff4566; /* Even larger radius for more glow */
+    0 0 0px #ff073a, /* Outermost blur */
+    0 0 0px #ff073a, /* Middle blur */
+    0 0 0px #ff073a, /* Innermost blur */
+    0 0 0px #ff4566, /* Slightly different red for depth */
+    0 0 0px #ff4566; /* Even larger radius for more glow */
   font-size: 2.0em; /* Maintaining the larger font size */
 }
 #answer-buttons button {
@@ -148,10 +149,10 @@ button {
   width: auto; /* Adjusted for auto width based on content */
   padding: 15px 30px; /* Increased padding for a larger button size */
   font-size: 1.2em; /* Increased font size for bigger text */
-  color: #ff073a; /* Bright red color */
+  color: #050401; /* Bright red color */
   background-color: transparent;
-  border: 2px solid #ff073a; /* Optional: red border */
-  animation: neonPulseRed 2s infinite ease-in-out;
+  border: 2px solid #050401; /* Optional: red border */
+ /* animation: neonPulseRed 2s infinite ease-in-out;*/
   cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.3s, border-color 0.3s;
