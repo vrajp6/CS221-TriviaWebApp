@@ -397,22 +397,19 @@ function selectAnswer(e) {
           currentQuestionIndex++;
           showQuestion();
       } else {
-          // Check if all answers were correct
-          if (correctAnswersCount === filteredQuestions.length) {
-              triggerConfetti(); // Trigger confetti only if all answers are correct
-          }
+          // Check if the user answered all the questions correctly
           endGame();
           correctAnswersCount = 0; // Reset the correct answers count for the next category
       }
   }, 1500);
 }
 
-// // Function to play category music
-// function playCategoryMusic() {
-//   var categoryMusic = document.getElementById('category-music');
-//   categoryMusic.volume = 0.1; // Set the volume to 10%
-//   categoryMusic.play();
-// }
+// Function to play category music
+function playCategoryMusic() {
+  var categoryMusic = document.getElementById('category-music');
+  categoryMusic.volume = 0.1; // Set the volume to 10%
+  categoryMusic.play();
+}
 
 // Function to stop category music and play question music
 function playQuestionMusic() {
