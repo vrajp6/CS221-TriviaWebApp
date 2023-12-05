@@ -1,6 +1,7 @@
+/* basic styling for whole body section */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #381272;
+  font-family: 'Segoe UI', Tahoma, Verdana, sans-serif; /* chose these because they look sophisticated */
+  background-color: #381272; 
   color: #333;
   text-align: center;
   margin: 0;
@@ -10,7 +11,7 @@ body {
   justify-content: center;
   align-items: center;
 
-  /* Background image */
+  /* background image */
   background-image: url('background.png'); 
   background-size: 90%;
   background-position: center;
@@ -24,7 +25,7 @@ h1 {
   font-size: 5.0em;
 }
 
-/* Styling for 'Select a Category' Header */
+/* styling for "Select a Category" */
 #category-header {
   color: #47a8bd; 
   text-align: center;
@@ -32,19 +33,19 @@ h1 {
   font-size: 2.0em; 
 }
 
-/* Game container styling */
+/* game container styling */
 #game-container {
-  max-width: 800px;
-  margin: 30px auto;
+  max-width: 800px;  /* does not take up whole screen so we can have a unique background image */
+  margin: 30px auto; 
   padding: 30px;
-  background-color: #101010; 
+  background-color: #101010; /* chose black to show contrast easier */
   border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); 
   color: #fff; 
   overflow: hidden; 
 }
 
-/* Timer and Score styling */
+/* timer and score styling */
 #timer, #score-container {
   font-size: 1.2em;
   color: #47a8bd; 
@@ -52,13 +53,15 @@ h1 {
   font-weight: bold;
 }
 
-/* Question and Answer styling */
+/* question styling */
 #question-container {
   margin-bottom: 20px;
   color: #ffffff; 
   font-size: 2.0em; 
   font-weight: bold;
 }
+
+/* make sure the buttons have enough room and the transition looks clean */
 #answer-buttons button {
   padding: 10px 15px;
   margin: 10px;
@@ -70,11 +73,12 @@ h1 {
   transition: transform 0.3s, background-color 0.3s;
 }
 
+/* increase button size when hovering */
 #answer-buttons button:hover {
   transform: scale(1.05);
 }
 
-/* Button styling for start and categories */
+/* button styling for start and categories */
 button {
   padding: 10px 20px;
   border: none;
@@ -85,26 +89,27 @@ button {
   transition: background-color 0.3s;
 }
 
+/* change button color on hover */
 button:hover {
   background-color: #16213e;
 }
 
-/* Correct Answer */
+/* change color on correct Answer */
 button.btn-correct {
   background-color: #4bb543 !important;
 }
-/* incorrect Answer */
 
+/* change color on incorrect Answer */
 button.btn-incorrect {
   background-color: #ff3333 !important;
 }
-/* Transition effect for the button color change */
+
+/* transition effect for the button color change so it doens't just snap*/
 button {
   transition: background-color 0.5s ease;
 }
 
-
-/* Category Button Styling with Neon Red Pulsing Effect */
+/* category button styling with neon red pulsing effect */
 .category-btn {
   margin: 10px;
   width: auto; 
@@ -118,12 +123,13 @@ button {
   transition: background-color 0.3s, border-color 0.3s;
 }
 
+/* darker background on hover and purple border */
 .category-btn:hover {
   background-color: rgba(255, 255, 255, 0.1); 
   border-color: #381272;
 }
 
-/* Responsive design */
+/* responsive design to work on smaller screens */
 @media (max-width: 600px) {
   #game-container {
     width: 100%;

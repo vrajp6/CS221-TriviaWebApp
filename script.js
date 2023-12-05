@@ -407,12 +407,12 @@ function selectAnswer(e) {
   }, 1500);
 }
 
-// Function to play category music
-function playCategoryMusic() {
-  var categoryMusic = document.getElementById('category-music');
-  categoryMusic.volume = 0.1; // Set the volume to 10%
-  categoryMusic.play();
-}
+// // Function to play category music
+// function playCategoryMusic() {
+//   var categoryMusic = document.getElementById('category-music');
+//   categoryMusic.volume = 0.1; // Set the volume to 10%
+//   categoryMusic.play();
+// }
 
 // Function to stop category music and play question music
 function playQuestionMusic() {
